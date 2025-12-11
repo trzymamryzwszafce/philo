@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 01:42:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/07 02:43:59 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/11 03:32:27 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ typedef struct s_data
 	t_philo				*philos;
 }		t_data;
 
-
-
-
+int		init_data(t_data *data, int argc, char **argv);
+int		init_forks(t_data *data);
+int		init_philos(t_data *data);
+int		init_threads(t_data *data);
+void	*routine(void *arg);
 
 long	ft_atol(const char *str);
 int		ft_atoi(const char *str);
