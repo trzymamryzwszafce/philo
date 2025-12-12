@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:30:15 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 17:00:32 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:51:34 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,20 @@
 
 int	init_threads(t_data *data)
 {
-	int			i;
 	pthread_t	*threads;
 	pthread_t	monitor_thread;
 
 	if (data->no_philo == 1)
-	{
-		printf("%ld 1 has taken a fork\n", 0L);
-		usleep(data->tt_die * 1000);
-		printf("%ld 1 died\n", data->tt_die);
-		return (0);
-	}
+		return (handle_one_philo(data));
 	threads = malloc(sizeof(pthread_t) * data->no_philo);
 	if (!threads)
 		return (1);
-	i = 0;
-	while (i < data->no_philo)
-	{
-		if (pthread_create(&threads[i], NULL, routine, &data->philos[i]))
-			return (free(threads), 1);
-		i++;
-	}
+	if (create_threads(data, threads))
+		return (free(threads), 1);
 	if (pthread_create(&monitor_thread, NULL, monitor, data))
 		return (free(threads), 1);
 	pthread_join(monitor_thread, NULL);
-	i = 0;
-	while (i < data->no_philo)
-	{
-		pthread_join(threads[i], NULL);
-		i++;
-	}
+	join_threads(data, threads);
 	free(threads);
 	return (0);
 }

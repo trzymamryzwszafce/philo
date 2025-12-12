@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 01:42:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 17:40:23 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:51:47 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ int		init_data(t_data *data, int argc, char **argv);
 int		init_forks(t_data *data);
 int		init_philos(t_data *data);
 int		init_threads(t_data *data);
+void	join_threads(t_data *data, pthread_t *threads);
+int		handle_one_philo(t_data *data);
+int		create_threads(t_data *data, pthread_t *threads);
 void	*monitor(void *arg);
 void	*routine(void *arg);
 
