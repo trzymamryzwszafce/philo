@@ -69,6 +69,7 @@ long	get_time(void)
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
+
 void	cleanup(t_data *data)
 {
 	int	i;
