@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRC = $(wildcard *.c)
+SRC = main.c init.c monitor.c routine.c routineutils.c utils.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
