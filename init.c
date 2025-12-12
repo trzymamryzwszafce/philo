@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:30:15 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 02:21:13 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:00:32 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ int	init_threads(t_data *data)
 	pthread_t	*threads;
 	pthread_t	monitor_thread;
 
+	if (data->no_philo == 1)
+	{
+		printf("%ld 1 has taken a fork\n", 0L);
+		usleep(data->tt_die * 1000);
+		printf("%ld 1 died\n", data->tt_die);
+		return (0);
+	}
 	threads = malloc(sizeof(pthread_t) * data->no_philo);
 	if (!threads)
 		return (1);

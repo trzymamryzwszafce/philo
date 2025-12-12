@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 03:02:50 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 02:58:59 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:40:09 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,13 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	int	first_fork;
-	int	second_fork;
+//	int	first_fork;
+//	int	second_fork;
 
-	get_fork_order(philo, &first_fork, &second_fork);
-	pthread_mutex_lock(&philo->data->forks[first_fork]);
-	if (!print_status(philo, "has taken a fork"))
-	{
-		pthread_mutex_unlock(&philo->data->forks[first_fork]);
-		return ;
-	}
-	pthread_mutex_lock(&philo->data->forks[second_fork]);
+	get_fork_order(philo);
+	//get_fork_order(philo, &first_fork, &second_fork);
+	//pthread_mutex_lock(&philo->data->forks[first_fork]);
+	//pthread_mutex_lock(&philo->data->forks[second_fork]);
 	if (!print_status(philo, "has taken a fork"))
 		return (unlock_forks(philo));
 	if (!print_status(philo, "is eating"))
@@ -72,7 +68,7 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
-		usleep(10);
+		ft_usleep(philo->data, 500);
 	while (!check_death(philo))
 	{
 		philo_eat(philo);
