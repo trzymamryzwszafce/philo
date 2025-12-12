@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:30:15 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/11 03:32:28 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 02:21:13 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	init_threads(t_data *data)
 {
 	int			i;
 	pthread_t	*threads;
+	pthread_t	monitor_thread;
 
 	threads = malloc(sizeof(pthread_t) * data->no_philo);
 	if (!threads)
@@ -24,12 +25,12 @@ int	init_threads(t_data *data)
 	while (i < data->no_philo)
 	{
 		if (pthread_create(&threads[i], NULL, routine, &data->philos[i]))
-		{
-			free(threads);
-			return (1);
-		}
+			return (free(threads), 1);
 		i++;
 	}
+	if (pthread_create(&monitor_thread, NULL, monitor, data))
+		return (free(threads), 1);
+	pthread_join(monitor_thread, NULL);
 	i = 0;
 	while (i < data->no_philo)
 	{
@@ -52,7 +53,7 @@ int	init_philos(t_data *data)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].eat_num = 0;
-		data->philos[i].last_meal = 0;
+		data->philos[i].last_meal = data->start_time;
 		data->philos[i].l_fork = i;
 		data->philos[i].r_fork = (i + 1) % data->no_philo;
 		data->philos[i].data = data;
@@ -86,6 +87,10 @@ int	init_forks(t_data *data)
 
 int	init_data(t_data *data, int argc, char **argv)
 {
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	data->start_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	data->no_philo = ft_atoi(argv[1]);
 	if (!argv[1] || data->no_philo <= 0)
 		return (1);
@@ -106,6 +111,5 @@ int	init_data(t_data *data, int argc, char **argv)
 		if (!argv[5] || data->no_meals < 0)
 			return (1);
 	}
-	gettimeofday(&data->start_time, NULL);
 	return (0);
 }

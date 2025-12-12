@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:34:52 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/11 03:32:30 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 02:08:59 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,12 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (val * res);
+}
+
+long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

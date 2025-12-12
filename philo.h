@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 01:42:42 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/11 03:32:27 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 03:01:06 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,14 @@ int		init_data(t_data *data, int argc, char **argv);
 int		init_forks(t_data *data);
 int		init_philos(t_data *data);
 int		init_threads(t_data *data);
+void	*monitor(void *arg);
 void	*routine(void *arg);
 
+void	get_fork_order(t_philo *philo, int *first, int *second);
+void	unlock_forks(t_philo *philo);
+int		check_death(t_philo *philo);
+long	get_time(void);
+void	cleanup(t_data *data);
 long	ft_atol(const char *str);
 int		ft_atoi(const char *str);
 
