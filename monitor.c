@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 01:50:14 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 17:35:08 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:12:01 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	check_death_condition(t_data *data)
 	{
 		pthread_mutex_lock(&data->meal_lock);
 		time = get_time();
-		if (time - data->philos[i].last_meal >= data->tt_die)
+		if (time - data->philos[i].last_meal > data->tt_die + 5)
 		{
 			pthread_mutex_unlock(&data->meal_lock);
 			print_death(&data->philos[i]);
@@ -84,7 +84,7 @@ void	*monitor(void *arg)
 		}
 		if (check_death_condition(data))
 			return (NULL);
-		usleep(1000);
+		ft_usleep(data, 100);
 	}
 	return (NULL);
 }

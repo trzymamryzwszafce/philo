@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:34:52 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 17:38:47 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:18:15 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,32 +91,25 @@ void	cleanup(t_data *data)
 		free(data->philos);
 	free(data);
 }
+
 void	ft_usleep(t_data *data, unsigned long long time_to_sleep)
 {
-    struct timeval		start;
-    struct timeval		current;
-    unsigned long long	elapsed;
-    unsigned long long	remaining;
+	unsigned long long	start;
+	unsigned long long	current;
 
-    gettimeofday(&start, NULL);
-    while (1)
-    {
-        pthread_mutex_lock(&data->death_lock);
-        if (data->philo_ded)
-        {
-            pthread_mutex_unlock(&data->death_lock);
-            break ;
-        }
-        pthread_mutex_unlock(&data->death_lock);
-        gettimeofday(&current, NULL);
-        elapsed = (current.tv_sec - start.tv_sec) * 1000000
-            + (current.tv_usec - start.tv_usec);
-        if (elapsed >= time_to_sleep)
-            break ;
-        remaining = time_to_sleep - elapsed;
-        if (remaining > 1000)
-            usleep(remaining / 2);
-        else
-            usleep(remaining);
-    }
+	start = get_time() * 1000;
+	while (1)
+	{
+		pthread_mutex_lock(&data->death_lock);
+		if (data->philo_ded)
+		{
+			pthread_mutex_unlock(&data->death_lock);
+			return ;
+		}
+		pthread_mutex_unlock(&data->death_lock);
+		current = get_time() * 1000;
+		if (current - start >= time_to_sleep)
+			break ;
+		usleep(100);
+	}
 }

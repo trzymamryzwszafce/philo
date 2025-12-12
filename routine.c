@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 03:02:50 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 17:40:09 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 18:17:53 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,23 @@ void	philo_think(t_philo *philo)
 void	philo_sleep(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
-	usleep(philo->data->tt_sleep * 1000);
+	ft_usleep(philo->data, philo->data->tt_sleep * 1000);
 }
 
 void	philo_eat(t_philo *philo)
 {
-//	int	first_fork;
-//	int	second_fork;
-
 	get_fork_order(philo);
-	//get_fork_order(philo, &first_fork, &second_fork);
-	//pthread_mutex_lock(&philo->data->forks[first_fork]);
-	//pthread_mutex_lock(&philo->data->forks[second_fork]);
+	pthread_mutex_lock(&philo->data->meal_lock);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->data->meal_lock);
 	if (!print_status(philo, "has taken a fork"))
 		return (unlock_forks(philo));
 	if (!print_status(philo, "is eating"))
 		return (unlock_forks(philo));
 	pthread_mutex_lock(&philo->data->meal_lock);
-	philo->last_meal = get_time();
 	philo->eat_num++;
 	pthread_mutex_unlock(&philo->data->meal_lock);
-	usleep(philo->data->tt_eat * 1000);
+	ft_usleep(philo->data, philo->data->tt_eat * 1000);
 	unlock_forks(philo);
 }
 
