@@ -6,7 +6,7 @@
 /*   By: szmadeja <szmadeja@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 02:34:52 by szmadeja          #+#    #+#             */
-/*   Updated: 2025/12/12 02:08:59 by szmadeja         ###   ########.fr       */
+/*   Updated: 2025/12/12 03:01:42 by szmadeja         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,25 @@ long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+void	cleanup(t_data *data)
+{
+	int	i;
+
+	if (data->forks)
+	{
+		i = 0;
+		while (i < data->no_philo)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			i++;
+		}
+		free(data->forks);
+	}
+	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->death_lock);
+	pthread_mutex_destroy(&data->meal_lock);
+	if (data->philos)
+		free(data->philos);
+	free(data);
 }
